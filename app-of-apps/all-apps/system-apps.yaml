@@ -1,0 +1,41 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: system-app-of-apps
+  namespace: argocd
+spec:
+  project: system-app-of-apps-project
+  source:
+    path: test-apps/more-apps/system-apps
+    repoURL: https://github.com/lovelinuxalot/argocd-test.git
+    targetRevision: HEAD
+    directory:
+      recurse: true
+      jsonnet: {}
+  destination:
+    namespace: testing-system
+    server: https://kubernetes.default.svc
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+    - CreateNamespace=true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: system-app-of-apps-project
+  namespace: argocd
+spec:
+  description: Project for admin apps
+  sourceRepos:
+    - '*'
+  destinations:
+    - namespace: testing-system
+      server: https://kubernetes.default.svc
+  clusterResourceWhitelist:
+    - group: '*'
+      kind: '*'
+  orphanedResources:
+    warn: false
