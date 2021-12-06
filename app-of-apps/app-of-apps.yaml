@@ -22,7 +22,7 @@ items:
     syncPolicy:
       automated:
         selfHeal: true
-        prune: true
+        prune: false
 - apiVersion: argoproj.io/v1alpha1
   kind: AppProject
   metadata:
@@ -30,54 +30,6 @@ items:
     namespace: argocd
   spec:
     description: App of Apps Project
-    sourceRepos:
-    - '*'
-    destinations:
-    - namespace: argocd
-      server: https://kubernetes.default.svc
-    clusterResourceWhitelist:
-    - group: '*'
-      kind: '*'
-    orphanedResources:
-      warn: false
-
-
-
-
-
-
-- apiVersion: argoproj.io/v1alpha1
-  kind: Application
-  metadata:
-    name: argocd-projects
-    namespace: argocd
-  spec:
-    project: argocd
-    source:
-      path: argocd-projects
-      repoURL: ssh://git@bitbucket.anarcon.de:7999/anarcon/gitops.git
-      targetRevision: HEAD
-      directory:
-        recurse: true
-        jsonnet: {}
-    destination:
-      namespace: argocd
-      server: https://kubernetes.default.svc
-    syncPolicy:
-      automated:
-        selfHeal: true
-        prune: true
----
-apiVersion: v1
-kind: List
-items:
-- apiVersion: argoproj.io/v1alpha1
-  kind: AppProject
-  metadata:
-    name: argocd
-    namespace: argocd
-  spec:
-    description: Argocd Project
     sourceRepos:
     - '*'
     destinations:
