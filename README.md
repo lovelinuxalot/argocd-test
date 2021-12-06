@@ -13,8 +13,8 @@ Can be installed on any kubernetes cluster. I tested it on a kind cluster, so i 
 - Once port forwarding is working, go to `https://localhost:8080`
 - Login as user `admin` and for the password on a new terminal, run the command `kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d` and paste the output as password
 - Once logged in, you will see empty dashboard
-- run the command `kubectl apply simple/sample-app-application.yaml` to see working of simple app deployment 
-- run the command `kubectl apply app-of-apps/app-of-apps.yaml` to see app-of-apps deployment with multi-app concept / app-of-apps pattern
+- run the command `kubectl apply -f simple/sample-app-application.yaml` to see working of simple app deployment 
+- run the command `kubectl apply -f app-of-apps/app-of-apps.yaml` to see app-of-apps deployment with multi-app concept / app-of-apps pattern
 
 ## Things to do after PoC
 
